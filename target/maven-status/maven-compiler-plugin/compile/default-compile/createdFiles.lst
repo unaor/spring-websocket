@@ -1,0 +1,6 @@
+com\datasol\paideia\configuration\WebAppInitializer.class
+com\datasol\paideia\configuration\WebSocketConfiguration.class
+com\datasol\paideia\util\RandomDataGenerator.class
+com\datasol\paideia\configuration\SecurityConfiguration.class
+com\datasol\paideia\configuration\WebConfiguration.class
+com\datasol\paideia\socket\TeacherSocket.class
