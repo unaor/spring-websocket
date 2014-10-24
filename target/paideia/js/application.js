@@ -38,6 +38,7 @@ $('#randomDataChart').highcharts({
 	} ]
 });
 var socket = new SockJS('/paideia/random');
+console.log(socket);
 var client = Stomp.over(socket);
 client.connect('user', 'password', function(frame) {
 	client.subscribe("/data", function(message) {

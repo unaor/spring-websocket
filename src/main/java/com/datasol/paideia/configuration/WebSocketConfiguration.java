@@ -1,62 +1,47 @@
 package com.datasol.paideia.configuration;
 
-import java.util.List;
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.converter.MessageConverter;
-import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver;
-import org.springframework.messaging.handler.invocation.HandlerMethodReturnValueHandler;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+
+import com.datasol.paideia.handshakes.PaideiaHandshake;
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer implements WebSocketConfigurer {
 
-	 @Override
-	 public void registerStompEndpoints(final StompEndpointRegistry registry) {
-	 registry.addEndpoint("/random").withSockJS();
-	 }
-	 @Override
-	 public void configureClientInboundChannel(
-	 final ChannelRegistration registration) {
-	 }
-	 @Override
-	 public void configureClientOutboundChannel(
-	 final ChannelRegistration registration) {
-	 }
-	 @Override
-	 public void configureMessageBroker(final MessageBrokerRegistry registry) {
-		 registry.setApplicationDestinationPrefixes("/paideia").enableSimpleBroker("/data","/test","/uri");
-		 
-	 }
-	@Override
-	public void configureWebSocketTransport(
-			WebSocketTransportRegistration registry) {
-		registry.setSendTimeLimit(15*1000).setSendBufferSizeLimit(512*1024);
-		
-	}
-	@Override
-	public void addArgumentResolvers(
-			List<HandlerMethodArgumentResolver> argumentResolvers) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void addReturnValueHandlers(
-			List<HandlerMethodReturnValueHandler> returnValueHandlers) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public boolean configureMessageConverters(
-			List<MessageConverter> messageConverters) {
-		// TODO Auto-generated method stub
-		return true;
+	@Override  
+	public void configureMessageBroker(MessageBrokerRegistry config) {
+		config.enableSimpleBroker("/topic","/data");  //where do i subscribe too
+		config.setApplicationDestinationPrefixes("/calcApp");  //where do i send to
 	}
 
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/add","/random").setHandshakeHandler(paideiaHandler()).withSockJS();  //where do i expose endpoint
+	}
+
+	@Override
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		registration.taskExecutor().corePoolSize(4).maxPoolSize(10);
+	}
+
+	@Override
+	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		//registry.addHandler(paideiaHandler(), "/random").withSockJS();//.addInterceptors(new HttpSessionHandshakeInterceptor());
+		
+	}	
+	
+	
+	
+	@Bean
+	public PaideiaHandshake paideiaHandler(){
+		return new PaideiaHandshake();
+	}
 }

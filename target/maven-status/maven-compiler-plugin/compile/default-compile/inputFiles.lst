@@ -1,6 +1,9 @@
 C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\configuration\SecurityConfiguration.java
 C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\util\RandomDataGenerator.java
 C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\configuration\WebConfiguration.java
+C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\configuration\SpringSecurityInitializer.java
+C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\handshakes\PaideiaHandshake.java
+C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\handshakes\SimpleHandler.java
 C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\socket\TeacherSocket.java
 C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\configuration\WebAppInitializer.java
 C:\eclipse\paideia\paideia\src\main\java\com\datasol\paideia\configuration\WebSocketConfiguration.java
